@@ -1,0 +1,6 @@
+   myResearch.push(entry)
+    noteEl.value = ""
+    urlEl.value = ""
+    localStorage.setItem("myResearch", JSON.stringify(myResearch))
+    filterResearch()
+})
