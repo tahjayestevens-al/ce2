@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Crop Research Library</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <h1>🌱 Crop Research Library</h1>
+
+  <h2>Add Research</h2>
+
+  <label>Crop (type or pick one)</label>
+  <input type="text" id="crop" list="cropList" placeholder="e.g. lettuce">
+  <datalist id="cropList">
+    <option value="Lettuce">
+    <option value="Basil">
+    <option value="Tomatoes">
+    <option value="Strawberries">
+    <option value="Peppers">
+  </datalist>
+
+  <label>Growing Method</label>
+  <select id="method">
+    <option value="Hydroponic">Hydroponic</option>
+    <option value="Soil-based">Soil-based</option>
+  </select>
+
+  <label>Research Category</label>
+  <select id="category">
+    <option value="pH">pH</option>
+    <option value="Lighting">Lighting</option>
+    <option value="Watering">Watering</option>
+    <option value="Nutrients">Nutrients</option>
+    <option value="Temperature">Temperature</option>
+    <option value="Other">Other</option>
+  </select>
+
+  <label>Research Note</label>
+  <textarea id="note" rows="3" placeholder="Short summary of what you found"></textarea>
+
+  <label>Website URL</label>
+  <input type="text" id="url" placeholder="https://...">
+  <button id="useTab" type="button">Use current page URL</button>
+
+  <button id="saveBtn" type="button">Save Research</button>
+  <p id="message"></p>
+
+  <h2>Saved Research</h2>
+
+  <label>Filter by crop</label>
+  <input type="text" id="filterCrop" placeholder="Leave blank to show all">
+
+  <label>Filter by method</label>
+  <select id="filterMethod">
+    <option value="All">All</option>
+    <option value="Hydroponic">Hydroponic</option>
+    <option value="Soil-based">Soil-based</option>
+  </select>
+
+  <div id="list"></div>
+
+  <button id="deleteBtn" type="button">Double click to delete all</button>
+
+  <script src="popup.js"></script>
+</body>
+</html>
