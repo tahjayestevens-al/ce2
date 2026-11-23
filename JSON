@@ -1,0 +1,83 @@
+let myResearch = []
+
+const cropEl = document.getElementById("crop")
+const methodEl = document.getElementById("method")
+const categoryEl = document.getElementById("category")
+const noteEl = document.getElementById("note")
+const urlEl = document.getElementById("url")
+const saveBtn = document.getElementById("saveBtn")
+const tabBtn = document.getElementById("useTab")
+const deleteBtn = document.getElementById("deleteBtn")
+const messageEl = document.getElementById("message")
+const listEl = document.getElementById("list")
+const filterCropEl = document.getElementById("filterCrop")
+const filterMethodEl = document.getElementById("filterMethod")
+
+
+if (researchFromLocalStorage) {
+    myResearch = researchFromLocalStorage
+    render(myResearch)
+}
+
+saveBtn.addEventListener("click", function() {
+    if (cropEl.value === "" || noteEl.value === "") {
+        messageEl.textContent = "Please enter a crop and a note."
+        return
+    }
+    messageEl.textContent = ""
+
+    const entry = {
+        crop: cropEl.value,
+        method: methodEl.value,
+        category: categoryEl.value,
+        note: noteEl.value,
+        url: urlEl.value
+    }
+
+   myResearch.push(entry)
+    noteEl.value = ""
+    urlEl.value = ""
+    localStorage.setItem("myResearch", JSON.stringify(myResearch))
+    filterResearch()
+})
+
+tabBtn.addEventListener("click", function() {
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        urlEl.value = tabs[0].url
+    })
+})
+
+deleteBtn.addEventListener("dblclick", function() {
+    localStorage.clear()
+    myResearch = []
+    render(myResearch)
+})
+
+filterCropEl.addEventListener("input", filterResearch)
+filterMethodEl.addEventListener("change", filterResearch)
+
+function filterResearch() {
+    let filtered = []
+    for (let i = 0; i < myResearch.length; i++) {
+        const cropMatch = myResearch[i].crop.toLowerCase().includes(filterCropEl.value.toLowerCase())
+        const methodMatch = filterMethodEl.value === "All" || myResearch[i].method === filterMethodEl.value
+        if (cropMatch && methodMatch) {
+            filtered.push(myResearch[i])
+        }
+    }
+    render(filtered)
+}
+
+function render(research) {
+    let listItems = ""
+    for (let i = 0; i < research.length; i++) {
+        listItems += `
+            <div class="entry">
+                <div class="title">${research[i].crop} - ${research[i].method} - ${research[i].category}</div>
+                <p>${research[i].note}</p>
+                <a target="_blank" href="${research[i].url}">${research[i].url}</a>
+            </div>
+        `
+    }
+    listEl.innerHTML = listItems
+}
